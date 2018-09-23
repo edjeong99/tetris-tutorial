@@ -14,3 +14,31 @@ html { background: #F7F7F7; }
     color: #444;
     font-size: 1.5em;
 }
+
+.control{
+    display : flex;
+    width : 500px;
+    margin : 0 auto;
+    margin-top : 20px;
+}
+
+.btn{
+    width : 100px;
+    border : 1px solid black;
+    background : lightgrey;
+    padding : 10px 15px; 
+    text-align : center;
+    font-size: 1.2em;
+    margin : 10px;
+}
+
+.btn:hover{
+    font-weight: bold;
+    background : white;
+}
+
+.selected{
+    background : yellow;
+    color : red;
+    border : 1px solid red;
+}
