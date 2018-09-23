@@ -28,10 +28,10 @@ let lastSpeedChangeLine = 0;
 let numLineforChangeSpeed = 2; // change speed after this number of lines are cleared
 
 let pieces = [
-  [I, "cyan"],
+  [I, "#cc99ff"],
   [J, "blue"],
   [L, "orange"],
-  [O, "yellow"],
+  [O, "#cc6666"],
   [S, "green"],
   [T, "purple"],
   [Z, "red"]
@@ -58,12 +58,12 @@ function drawSquare(x, y) {
   ctx.strokeStyle = "#555";
   ctx.strokeRect(x * tilesz, y * tilesz, tilesz, tilesz);
   ctx.strokeStyle = "#888";
-  ctx.strokeRect(
-    x * tilesz + (3 * tilesz) / 8,
-    y * tilesz + (3 * tilesz) / 8,
-    tilesz / 4,
-    tilesz / 4
-  );
+//   ctx.strokeRect(
+//     x * tilesz + (3 * tilesz) / 8,
+//     y * tilesz + (3 * tilesz) / 8,
+//     tilesz / 4,
+//     tilesz / 4
+//   );
   ctx.strokeStyle = ss;
 }
 
