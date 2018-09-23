@@ -40,12 +40,6 @@ let pieces = [
 canvas1.width = width * tilesz;
 canvas1.height = height * tilesz;
 
-for (let r = 0; r < height; r++) {
-  board[r] = [];
-  for (let c = 0; c < width; c++) {
-    board[r][c] = "";
-  }
-}
 
 function newPiece() {
   let p = pieces[Math.round(Math.random() * (pieces.length -1))];
@@ -312,9 +306,16 @@ function stop() {
   startBtn.classList.remove("selected");
 }
 
+function newGame(){
+	clearBoard();
+	drawBoard();
+	piece = newPiece();
+	play();
+}
 // initialize the game.  eventListner for buttons (play, stop, new)
 function init() {
   piece = newPiece();
+  clearBoard();
   drawBoard();
   linecount.textContent = "Lines: 0";
   play();
@@ -326,7 +327,17 @@ function init() {
     play();
   });
   stopBtn.addEventListener("click", () => stop());
-  newBtn.addEventListener("click", () => init());
+  newBtn.addEventListener("click", () => newGame());
 }
+
+function clearBoard(){
+for (let r = 0; r < height; r++) {
+	board[r] = [];
+	for (let c = 0; c < width; c++) {
+	  board[r][c] = "";
+	}
+  }
+}
+
 
 init();
