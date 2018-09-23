@@ -22,6 +22,10 @@ let stopBtn = document.querySelector(".stop");
 let newBtn = document.querySelector(".new");
 
 let dropSpeed = 1000; // speed of piece moving.  The less the value, faster moving.
+let minDropSpeed = 300;
+let dropSpeedChange = 50;
+let lastSpeedChangeLine = 0;
+let numLineforChangeSpeed = 2; // change speed after this number of lines are cleared
 
 let pieces = [
   [I, "cyan"],
@@ -44,7 +48,7 @@ for (let r = 0; r < height; r++) {
 }
 
 function newPiece() {
-  let p = pieces[Math.round(Math.random() * pieces.length)];
+  let p = pieces[Math.round(Math.random() * (pieces.length -1))];
   return new Piece(p[0], p[1]);
 }
 
@@ -157,9 +161,10 @@ class Piece {
 
         if (this.y + iy < 0) {
           // Game ends!
-          alert("You're done!");
-          done = true;
-          return;
+		  done = true;
+		  stop();
+		  alert("You're done!");
+		  return;
         }
         board[this.y + iy][this.x + ix] = this.color;
       }
@@ -190,7 +195,8 @@ class Piece {
     if (nlines > 0) {
       lines += nlines;
       drawBoard();
-      linecount.textContent = "Lines: " + lines;
+	  linecount.textContent = "Lines: " + lines;
+	  changeDropSpeed();
     }
   }
 
@@ -248,7 +254,7 @@ function key(k) {
   if (k == 38) {
     // Player pressed up
     piece.rotate();
-    dropStart = Date.now();
+    // dropStart = Date.now();
   }
   if (k == 40) {
     // Player holding down
@@ -257,12 +263,12 @@ function key(k) {
   if (k == 37) {
     // Player holding left
     piece.moveLeft();
-    dropStart = Date.now();
+    // dropStart = Date.now();
   }
   if (k == 39) {
     // Player holding right
     piece.moveRight();
-    dropStart = Date.now();
+    // dropStart = Date.now();
   }
 }
 
@@ -277,11 +283,18 @@ function drawBoard() {
   ctx.fillStyle = fs;
 }
 
+function changeDropSpeed(){
+	if (lines >=  numLineforChangeSpeed + lastSpeedChangeLine  && dropSpeed > minDropSpeed ){
+		dropSpeed -= dropSpeedChange;
+		lastSpeedChangeLine += numLineforChangeSpeed;
+	}
+}
+
 function play() {
   let now = Date.now();
   let delta = now - dropStart;
 
-  if (playing == true) {
+  if (playing) {
     if (delta > dropSpeed) {
       piece.down();
       dropStart = now;
