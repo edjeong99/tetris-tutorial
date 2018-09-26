@@ -1,9 +1,9 @@
 let canvas1 = document.getElementById("board");
 let ctx = canvas1.getContext("2d");
 let linecount = document.getElementById("lines");
-let clear = window
-  .getComputedStyle(canvas1)
-  .getPropertyValue("background-color");
+let clear = window.getComputedStyle(canvas1).getPropertyValue("background-color");
+
+
 let width = 10;
 let height = 20;
 let tilesz = 24;
@@ -27,6 +27,7 @@ let dropSpeedChange = 50;
 let lastSpeedChangeLine = 0;
 let numLineforChangeSpeed = 2; // change speed after this number of lines are cleared
 
+
 let pieces = [
   [I, "#cc99ff"],
   [J, "blue"],
@@ -39,6 +40,9 @@ let pieces = [
 
 canvas1.width = width * tilesz;
 canvas1.height = height * tilesz;
+
+
+
 
 
 function newPiece() {
@@ -122,6 +126,7 @@ class Piece {
     if (this._collides(0, 1, this.pattern)) {
       this.lock();
       piece = newPiece();
+      piece.drawNewPiece();
     } else {
       this.undraw();
       this.y++;
@@ -216,8 +221,23 @@ class Piece {
   draw(ctx) {
     this._fill(this.color);
   }
-}
 
+  drawNewPiece() {
+    let newBoard = document.querySelectorAll('#nextPiece div');
+    newBoard = Array.from(newBoard).map((item) => item);
+    
+    for (let x = 0; x < 4; x++) {
+      for (let y = 0; y < 4; y++) {
+        if (this.pattern[x][y]) {
+          let num = 4*x + y;
+          newBoard[num].style.background = this.color;
+        }
+
+  }
+
+}
+  }
+}
 document.body.addEventListener(
   "keydown",
   function(e) {
@@ -309,16 +329,16 @@ function stop() {
 function newGame(){
 	clearBoard();
 	drawBoard();
-	piece = newPiece();
+  piece = newPiece();
+  piece.drawNewPiece();
 	play();
 }
 // initialize the game.  eventListner for buttons (play, stop, new)
 function init() {
-  piece = newPiece();
-  clearBoard();
-  drawBoard();
+
+  drawNextBoard()
   linecount.textContent = "Lines: 0";
-  play();
+  newGame();
 
   startBtn.addEventListener("click", () => {
     startBtn.classList.add("selected");
@@ -338,6 +358,15 @@ for (let r = 0; r < height; r++) {
 	}
   }
 }
+
+function drawNextBoard(){
+  let newPieceTag = document.querySelector('#nextPiece');
+  let node = document.createElement("div");
+  for(let i=0; i < 16; i++){
+    let node = document.createElement("div");
+    newPieceTag.append(node);
+    }
+  }
 
 
 init();

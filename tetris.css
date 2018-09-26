@@ -42,3 +42,17 @@ html { background: #F7F7F7; }
     color : red;
     border : 1px solid red;
 }
+
+#nextPiece {
+    display : flex;
+    flex-wrap: wrap;
+    width : 90px;
+}
+
+
+#nextPiece div{
+
+    border : 1px solid lightgray;
+    width : 22%;
+    height : 20px
+}
