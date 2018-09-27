@@ -45,9 +45,25 @@ canvas1.height = height * tilesz;
 
 
 
-function newPiece() {
-  let p = pieces[Math.round(Math.random() * (pieces.length -1))];
-  return new Piece(p[0], p[1]);
+function newPiece(piece) {
+  let currentPiece;
+   let p;
+
+  if (piece && piece.nextPiece){
+    currentPiece = piece.nextPiece;
+  }
+  else{
+    p = pieces[Math.round(Math.random() * (pieces.length -1))];
+    currentPiece = new Piece(p[0], p[1]);
+   }
+
+  p = pieces[Math.round(Math.random() * (pieces.length -1))];
+  // currentPiece = new Piece(p[0], p[1]);
+  currentPiece.nextPiece = new Piece(p[0], p[1]);
+  return currentPiece
+
+  // var p = pieces[parseInt(Math.random() * pieces.length, 10)];
+	// return new Piece(p[0], p[1]);
 }
 
 function drawSquare(x, y) {
@@ -70,7 +86,7 @@ class Piece {
     this.pattern = patterns[0];
     this.patterns = patterns;
     this.patterni = 0;
-
+    this.nextPiece = null;
     this.color = color;
 
     this.x = width / 2 - Math.round(this.pattern.length / 2);
@@ -126,7 +142,7 @@ class Piece {
     if (this._collides(0, 1, this.pattern)) {
       this.lock();
       piece = newPiece();
-      piece.drawNewPiece();
+      piece.nextPiece.drawNewPiece();
     } else {
       this.undraw();
       this.y++;
@@ -222,20 +238,29 @@ class Piece {
     this._fill(this.color);
   }
 
+  // draw next piece
   drawNewPiece() {
     let newBoard = document.querySelectorAll('#nextPiece div');
     newBoard = Array.from(newBoard).map((item) => item);
-    
+    let lineNum = this.pattern.length;
+
+    // clean the board
     for (let x = 0; x < 4; x++) {
       for (let y = 0; y < 4; y++) {
+          let num = 4*x + y;
+          newBoard[num].style.background = "white";
+         }
+    }
+
+// draw the next piece
+    for (let x = 0; x < lineNum; x++) {
+      for (let y = 0; y < lineNum; y++) {
         if (this.pattern[x][y]) {
           let num = 4*x + y;
           newBoard[num].style.background = this.color;
         }
-
-  }
-
-}
+      }
+    }
   }
 }
 document.body.addEventListener(
@@ -327,14 +352,33 @@ function stop() {
 }
 
 function newGame(){
-	clearBoard();
+	// clearBoard();
 	drawBoard();
-  piece = newPiece();
-  piece.drawNewPiece();
+  piece = newPiece(piece);
+  piece.nextPiece.drawNewPiece();
+ 
 	play();
 }
+
+function drawNextBoard(){
+  let newPieceTag = document.querySelector('#nextPiece');
+  let node = document.createElement("div");
+  for(let i=0; i < 16; i++){
+    let node = document.createElement("div");
+    newPieceTag.append(node);
+    }
+  }
+
+
 // initialize the game.  eventListner for buttons (play, stop, new)
 function init() {
+ 
+  for (var r = 0; r < height; r++) {
+    board[r] = [];
+    for (var c = 0; c < width; c++) {
+      board[r][c] = "";
+    }
+  }
 
   drawNextBoard()
   linecount.textContent = "Lines: 0";
@@ -350,23 +394,6 @@ function init() {
   newBtn.addEventListener("click", () => newGame());
 }
 
-function clearBoard(){
-for (let r = 0; r < height; r++) {
-	board[r] = [];
-	for (let c = 0; c < width; c++) {
-	  board[r][c] = "";
-	}
-  }
-}
-
-function drawNextBoard(){
-  let newPieceTag = document.querySelector('#nextPiece');
-  let node = document.createElement("div");
-  for(let i=0; i < 16; i++){
-    let node = document.createElement("div");
-    newPieceTag.append(node);
-    }
-  }
 
 
 init();
