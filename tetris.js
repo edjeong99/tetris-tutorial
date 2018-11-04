@@ -15,7 +15,7 @@ let playing = false;   // boolean to see if playing is ongoing
 let dropStart = Date.now();
 let downI = {};
 let board = [];
-let piece;
+let piece = null;
 
 let startBtn = document.querySelector(".start");
 let stopBtn = document.querySelector(".stop");
@@ -46,10 +46,9 @@ canvas1.height = height * tilesz;
 
 
 function newPiece(piece) {
-  let currentPiece;
-   let p;
+  let currentPiece, p;
 
-  if (piece && piece.nextPiece){
+  if (piece){
     currentPiece = piece.nextPiece;
   }
   else{
@@ -141,7 +140,7 @@ class Piece {
   down() {
     if (this._collides(0, 1, this.pattern)) {
       this.lock();
-      piece = newPiece();
+      piece = newPiece(piece);
       piece.nextPiece.drawNewPiece();
     } else {
       this.undraw();
@@ -360,11 +359,12 @@ function newGame(){
       board[r][c] = "";
     }
   }
-
-  drawNextBoard()
-  linecount.textContent = "Lines: 0";
   
 	drawBoard();
+
+  linecount.textContent = "Lines: 0";
+
+
   piece = newPiece(piece);
   piece.nextPiece.drawNewPiece();
   startBtn.classList.add("selected");
@@ -385,7 +385,7 @@ function drawNextBoard(){
 
 // initialize the game.  eventListner for buttons (play, stop, new)
 function init() {
- 
+  drawNextBoard()
 
   newGame();
 

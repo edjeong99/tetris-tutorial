@@ -15,6 +15,11 @@ html { background: #F7F7F7; }
     font-size: 1.5em;
 }
 
+.boards{
+    margin : 0 auto;
+    width : 500px;
+    display : flex;
+}
 .control{
     display : flex;
     width : 500px;
@@ -47,7 +52,11 @@ html { background: #F7F7F7; }
     display : flex;
     flex-wrap: wrap;
     width : 90px;
+    align-content: flex-start;
+    height : auto;
+    margin-down : 10px;
 }
+
 
 
 #nextPiece div{

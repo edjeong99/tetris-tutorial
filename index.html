@@ -1,29 +1,32 @@
-<!DOCTYPE html> 
- <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>My Little Tetris</title>
-			<link rel="stylesheet" type="text/css" href="tetris.css"  />
-	</head>
-	
-	<body>
-		<span id="lines">Lines: 0</span>
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>My Little Tetris</title>
+	<link rel="stylesheet" type="text/css" href="tetris.css" />
+</head>
+
+<body>
+	<span id="lines">Lines: 0</span>
+	<div class="boards">
 		<canvas id="board"> </canvas>
-		<div id="nextPiece"> </div>
+		<div id="nextPiece">Next Piece : <br>  </div>
+	</div>
+
+	<div class="control">
+		<div class="start btn">Start</div>
+		<div class="stop btn selected">Stop</div>
+		<div class="new btn">New Game</div>
+
+	</div>
+	<script src="tetrominoes.js"></script>
+	<script src="tetris.js"></script>
 
 
-		<div class="control">
-			<div class="start btn">Start</div>
-			<div class="stop btn selected">Stop</div>
-			<div class="new btn">New Game</div>
-
-		</div>
-		<script src="tetrominoes.js"></script>
-		<script src="tetris.js"></script>
-	
 
 
 
+</body>
 
-	</body>
 </html>
