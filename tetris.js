@@ -5,13 +5,13 @@ let clear = window.getComputedStyle(canvas1).getPropertyValue("background-color"
 
 
 let width = 10;
-let height = 20;
+let height = 15;
 let tilesz = 24;
 let WALL = 1;
 let BLOCK = 2;
 let lines = 0;
 let done = false;
-let playing = false;
+let playing = false;   // boolean to see if playing is ongoing
 let dropStart = Date.now();
 let downI = {};
 let board = [];
@@ -333,6 +333,7 @@ function play() {
   let now = Date.now();
   let delta = now - dropStart;
 
+
   if (playing) {
     if (delta > dropSpeed) {
       piece.down();
@@ -352,11 +353,23 @@ function stop() {
 }
 
 function newGame(){
-	// clearBoard();
+  // clearBoard();
+  for (var r = 0; r < height; r++) {
+    board[r] = [];
+    for (var c = 0; c < width; c++) {
+      board[r][c] = "";
+    }
+  }
+
+  drawNextBoard()
+  linecount.textContent = "Lines: 0";
+  
 	drawBoard();
   piece = newPiece(piece);
   piece.nextPiece.drawNewPiece();
- 
+  startBtn.classList.add("selected");
+  stopBtn.classList.remove("selected");
+  playing = true;
 	play();
 }
 
@@ -373,15 +386,7 @@ function drawNextBoard(){
 // initialize the game.  eventListner for buttons (play, stop, new)
 function init() {
  
-  for (var r = 0; r < height; r++) {
-    board[r] = [];
-    for (var c = 0; c < width; c++) {
-      board[r][c] = "";
-    }
-  }
 
-  drawNextBoard()
-  linecount.textContent = "Lines: 0";
   newGame();
 
   startBtn.addEventListener("click", () => {
